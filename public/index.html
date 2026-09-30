@@ -1,242 +1,114 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ER:LC Live Status</title>
+<style>
+* {
+    box-sizing: border-box;
+}
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font-family: Arial, sans-serif;
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            background:
-                radial-gradient(circle at top, #1e40af, transparent 40%),
-                #050816;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+.box {
+    width: 210px;
+    padding: 9px 11px;
+    border-radius: 10px;
+    background: rgba(10, 15, 25, 0.96);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.08);
+}
 
-        .container {
-            width: 100%;
-            max-width: 850px;
-        }
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 7px;
+}
 
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+.name {
+    font-size: 12px;
+    font-weight: 700;
+}
 
-        .logo {
-            width: 70px;
-            height: 70px;
-            margin: auto;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            font-size: 25px;
-            font-weight: bold;
-            box-shadow: 0 0 40px rgba(37, 99, 235, .4);
-        }
+.status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 8px;
+    color: #22c55e;
+}
 
-        h1 {
-            margin: 15px 0 5px;
-            font-size: 34px;
-        }
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+}
 
-        .subtitle {
-            color: #94a3b8;
-        }
+.offline {
+    background: #ef4444;
+}
 
-        .card {
-            background: rgba(15, 23, 42, .9);
-            border: 1px solid rgba(255,255,255,.08);
-            border-radius: 25px;
-            padding: 30px;
-            box-shadow: 0 25px 70px rgba(0,0,0,.5);
-        }
+.info {
+    display: flex;
+    gap: 5px;
+}
 
-        .status {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 9px;
-            margin-bottom: 25px;
-            font-weight: bold;
-        }
+.item {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 5px 7px;
+}
 
-        .dot {
-            width: 11px;
-            height: 11px;
-            border-radius: 50%;
-            background: #22c55e;
-            box-shadow: 0 0 15px #22c55e;
-        }
+.label {
+    color: #64748b;
+    font-size: 7px;
+    text-transform: uppercase;
+}
 
-        .dot.offline {
-            background: #ef4444;
-            box-shadow: 0 0 15px #ef4444;
-        }
+.value {
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 1px;
+}
 
-        .stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .stat {
-            padding: 30px;
-            text-align: center;
-            background: rgba(255,255,255,.04);
-            border-radius: 18px;
-            border: 1px solid rgba(255,255,255,.06);
-        }
-
-        .label {
-            color: #94a3b8;
-            font-size: 13px;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-
-        .value {
-            font-size: 42px;
-            font-weight: 800;
-        }
-
-        #queue {
-            color: #fbbf24;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-
-        .button {
-            text-decoration: none;
-            color: white;
-            background: #111827;
-            border: 1px solid rgba(255,255,255,.08);
-            padding: 13px 25px;
-            border-radius: 12px;
-            transition: .2s;
-        }
-
-        .button:hover {
-            transform: translateY(-3px);
-            background: #1e293b;
-        }
-
-        .updated {
-            text-align: center;
-            color: #64748b;
-            font-size: 12px;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 600px) {
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            h1 {
-                font-size: 28px;
-            }
-
-            .card {
-                padding: 20px;
-            }
-        }
-    </style>
+#queue {
+    color: #fbbf24;
+}
+</style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="box">
 
-    <div class="header">
-
-        <div class="logo">
-            ER
-        </div>
-
-        <h1>ER:LC Live Status</h1>
-
-        <div class="subtitle">
-            Real-time server information
-        </div>
-
-    </div>
-
-    <div class="card">
+    <div class="top">
+        <div class="name">ER:LC</div>
 
         <div class="status">
             <span id="dot" class="dot"></span>
-            <span id="status">Verbinden...</span>
+            <span id="status">ONLINE</span>
+        </div>
+    </div>
+
+    <div class="info">
+
+        <div class="item">
+            <div class="label">Players</div>
+            <div class="value" id="players">--/--</div>
         </div>
 
-        <div class="stats">
-
-            <div class="stat">
-
-                <div class="label">
-                    PLAYERS
-                </div>
-
-                <div class="value" id="players">
-                    -- / --
-                </div>
-
-            </div>
-
-            <div class="stat">
-
-                <div class="label">
-                    QUEUE
-                </div>
-
-                <div class="value" id="queue">
-                    --
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="buttons">
-
-            <a
-                class="button"
-                href="https://www.tiktok.com/@JOUW_TIKTOK"
-                target="_blank">
-                🎵 TikTok
-            </a>
-
-            <a
-                class="button"
-                href="https://github.com/JOUW_GITHUB"
-                target="_blank">
-                💻 GitHub
-            </a>
-
-        </div>
-
-        <div class="updated">
-            Laatste update: <span id="lastUpdate">--:--:--</span>
+        <div class="item">
+            <div class="label">Queue</div>
+            <div class="value" id="queue">--</div>
         </div>
 
     </div>
@@ -260,42 +132,33 @@ async function updateServer() {
         }
 
         document.getElementById("players").textContent =
-            `${data.players} / ${data.maxPlayers}`;
+            `${data.players}/${data.maxPlayers}`;
 
         document.getElementById("queue").textContent =
             data.queue;
 
         document.getElementById("status").textContent =
-            "Online";
+            "ONLINE";
 
         document.getElementById("dot").classList.remove("offline");
 
-        document.getElementById("lastUpdate").textContent =
-            new Date().toLocaleTimeString();
-
     } catch (error) {
 
-        console.error("ER:LC ERROR:", error);
-
         document.getElementById("players").textContent =
-            "-- / --";
+            "--/--";
 
         document.getElementById("queue").textContent =
             "--";
 
         document.getElementById("status").textContent =
-            "Offline";
+            "OFFLINE";
 
         document.getElementById("dot").classList.add("offline");
-
     }
-
 }
 
-/* Meteen laden */
 updateServer();
 
-/* Iedere 2 seconden updaten */
 setInterval(updateServer, 2000);
 
 </script>
